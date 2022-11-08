@@ -4,7 +4,7 @@ import styled from "styled-components";
 import jigar from "images/Jigar.jpg";
 import shreenath from "images/shreenath.jpg";
 import naren from "images/naren.JPG";
-import neel from "images/naren.JPG";
+import neel from "images/neel.jpg";
 import { css } from "styled-components/macro";
 import { Container, ContentWithPaddingXl } from "components/misc/Layouts.js";
 import { SectionHeading, Subheading as SubheadingBase } from "components/misc/Headings";
@@ -18,8 +18,8 @@ const Heading = tw(SectionHeading)``
 const Subheading = tw(SubheadingBase)`text-center mb-3`
 const Description = tw(SectionDescription)`mx-auto text-center`
 
-const Cards = tw.div`flex flex-wrap flex-row justify-center sm:max-w-2xl lg:max-w-5xl mx-auto`
-const Card = tw.div`mt-24 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center`
+const Cards = tw.div`flex flex-wrap flex-row justify-center sm:max-w-2xl lg:max-w-6xl mx-auto`
+const Card = tw.div`mt-24 w-full sm:w-1/2 lg:w-1/4 flex flex-col items-center`
 const CardImage = styled.div`
   ${props => css`background-image: url("${props.imageSrc}");`}
   ${tw`w-64 h-64 bg-contain bg-center rounded`}
