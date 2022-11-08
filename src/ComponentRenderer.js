@@ -100,7 +100,10 @@ import FiveColumnDarkFooter from "components/footers/FiveColumnDark.js";
 import MiniCenteredFooter from "components/footers/MiniCenteredFooter.js";
 
 
+
+
 export const components = {
+
   landingPages: {
     RestaurantLandingPage: {
       component: RestaurantLandingPage,
@@ -140,11 +143,11 @@ export const components = {
   },
 
   innerPages: {
-    LoginPage: {
+    Login: {
       component: LoginPage,
       imageSrc: LoginPageImageSrc,
       scrollAnimationDisabled: true,
-      url: "/components/innerPages/LoginPage",
+      url: "/components/innerPages/Login",
     },
     SignupPage: {
       component: SignupPage,
