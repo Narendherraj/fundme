@@ -14,14 +14,14 @@ import Footer from "components/footers/MiniCenteredFooter.js";
 export default () => (
   <AnimationRevealPage>
     <Hero />
-    <Features />
+    {/* <Features /> */}
     <SliderCard />
-    <TrendingCard />
-    <MainFeature />
+    {/* <TrendingCard /> */}
+    {/* <MainFeature /> */}
     <Blog />
-    <Testimonial textOnLeft={true}/>
+    {/* <Testimonial textOnLeft={true}/> */}
     <FAQ />
-    <SubscribeNewsLetterForm />
+    {/* <SubscribeNewsLetterForm /> */}
     <Footer />
   </AnimationRevealPage>
 );
