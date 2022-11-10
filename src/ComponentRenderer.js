@@ -23,6 +23,7 @@ import LoginPage from "pages/Login.js";
 import SignupPage from "pages/Signup.js";
 import PricingPage from "pages/Pricing.js";
 import AboutUsPage from "pages/AboutUs.js";
+import CampaignPage from "pages/Campaign.js";
 import ContactUsPage from "pages/ContactUs.js";
 import BlogIndexPage from "pages/BlogIndex.js";
 import TermsOfServicePage from "pages/TermsOfService.js";
@@ -164,6 +165,11 @@ export const components = {
       component: AboutUsPage,
       url: `/components/innerPages/AboutUsPage`,
       imageSrc: AboutUsPageImageSrc,
+    },
+    CampaignPage: {
+      component: CampaignPage,
+      url: `/components/innerPages/CampaignPage`
+      
     },
     ContactUsPage: {
       component: ContactUsPage,
