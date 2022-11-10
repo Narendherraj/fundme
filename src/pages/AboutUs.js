@@ -23,7 +23,7 @@ export default () => {
     <AnimationRevealPage>
       <Header />
       <MainFeature1
-        subheading={<Subheading>About Fund-Me</Subheading>}
+        subheading={<Subheading>About Fund</Subheading>}
         heading="The Goal"
         description="We wanted to build a tool which could help raising funds within our organisation much easier and involve a wider participation with automated alerts with timelines"
         buttonRounded={false}

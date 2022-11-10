@@ -56,7 +56,7 @@ const IllustrationImage = styled.div`
 export default ({
   logoLinkUrl = "#",
   illustrationImageSrc = illustration,
-  headingText = "Sign In To Fund-Me",
+  headingText = "Sign In To Fund",
   submitButtonText = "Sign In",
   SubmitButtonIcon = LoginIcon,
   forgotPasswordUrl = "#",
