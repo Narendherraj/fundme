@@ -47,7 +47,7 @@ export default ({
       <NavLink href="components/innerPages/AboutUsPage">About</NavLink>
       <NavLink href="#">Blog</NavLink>
       <NavLink href="components/innerPages/CampaignPage">Create Campaign</NavLink>
-      <NavLink href="#">Browse Campaign</NavLink>
+      <NavLink href="components/innerPages/BrowseCampaignPage">Browse Campaign</NavLink>
     </NavLinks>
   ],
   heading = (
@@ -61,7 +61,7 @@ export default ({
   description = "- Hank Rosso",
   primaryActionUrl = "components/innerPages/CampaignPage",
   primaryActionText = "Create Campaign",
-  secondaryActionUrl = "#",
+  secondaryActionUrl = "components/innerPages/BrowseCampaignPage",
   secondaryActionText = "Browse Campaign"
 }) => {
   return (
