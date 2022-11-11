@@ -100,6 +100,7 @@ import FiveColumnWithBackgroundFooter from "components/footers/FiveColumnWithBac
 import FiveColumnDarkFooter from "components/footers/FiveColumnDark.js";
 import MiniCenteredFooter from "components/footers/MiniCenteredFooter.js";
 
+import BrowseCampaign from "./pages/BrowseCampaign";
 
 
 
@@ -169,7 +170,10 @@ export const components = {
     CampaignPage: {
       component: CampaignPage,
       url: `/components/innerPages/CampaignPage`
-      
+    },
+    BrowseCampaignPage:{
+      component:BrowseCampaign,
+      url:`/components/innerPages/BrowseCampaignPage`
     },
     ContactUsPage: {
       component: ContactUsPage,
