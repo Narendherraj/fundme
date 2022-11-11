@@ -59,7 +59,7 @@ export default ({
     </>
   ),
   description = "- Hank Rosso",
-  primaryActionUrl = "#",
+  primaryActionUrl = "components/innerPages/CampaignPage",
   primaryActionText = "Create Campaign",
   secondaryActionUrl = "#",
   secondaryActionText = "Browse Campaign"
