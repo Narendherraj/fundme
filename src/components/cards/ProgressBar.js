@@ -10,7 +10,7 @@ const ProgressBar = ({ progressPercentage=0, fundsRaised, fundsNeeded }) => {
     const ProgressInner = styled.div`
       ${tw`bg-blue-600 h-2 rounded-full`}
     `
-    const Title = tw.h6`text-sm mb-3`;
+    const Title = tw.h6`text-sm mb-1`;
     const FundsText = styled.span`
         ${tw`text-sm font-bold`}
     `

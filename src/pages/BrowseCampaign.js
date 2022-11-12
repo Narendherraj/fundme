@@ -67,6 +67,7 @@ const BrowseCampaign = ()=>{
     const [donateCampaignId, setDonateCampaignId] = useState(null);
 
     const [campaigns, setCampaigns] = useState([]);
+    const [campaign, setCampaign] = useState({});
 
     //used to get the data from api and store in state
     useEffect(()=>{
@@ -90,10 +91,9 @@ const BrowseCampaign = ()=>{
                 </HeadingWithControl>
                 <FlexCard>
                 {campaigns.map((campaign, index)=>(
-                    campaign.status ?
-
+                    campaign.status ==="active" ?
                         <Card key={campaign.campaignId}>
-                            <CardImage imageSrc="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80" />
+                            {/*<CardImage imageSrc={campaign.imagePath} />*/}
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{campaign.campaignName}</Title>
@@ -109,7 +109,7 @@ const BrowseCampaign = ()=>{
                                         <IconContainer>
                                             <ClockIcon />
                                         </IconContainer>
-                                        <Text>{`${calculateDaysLeft(presentDate, moment(campaign.campaignLastDate))} Days Left`}</Text>
+                                        <Text>{`${calculateDaysLeft(moment(campaign.campaignLastDate), presentDate)} Days Left`}</Text>
                                     </IconWithText>
                                     <IconWithText>
                                         <HeartIconContainer>
@@ -119,7 +119,7 @@ const BrowseCampaign = ()=>{
                                     </IconWithText>
                                 </SecondaryInfoContainer>
                             </TextInfo>
-                            <PrimaryButton onClick={() => {setShowDonateModal(true);setDonateCampaignId(campaign.campaignId)}}>Donate Now</PrimaryButton>
+                            <PrimaryButton onClick={() => {setShowDonateModal(true);setDonateCampaignId(campaign.campaignId); setCampaign(campaign)}}>Donate Now</PrimaryButton>
                         </Card>
                         :null
                 ))}
@@ -129,18 +129,17 @@ const BrowseCampaign = ()=>{
 
     )
 
-    const expiredCampaigns = (
+    const inReviewCampaigns = (
         <Container>
             <Content>
                 <HeadingWithControl>
-                    <Heading>Expired Campaigns</Heading>
+                    <Heading>In Review Campaigns</Heading>
                 </HeadingWithControl>
                 <FlexCard>
                 {campaigns.map((campaign, index)=>(
-                    !campaign.status ?
-
+                    campaign.status === 'inreview' ?
                         <Card key={campaign.campaignId}>
-                            <CardImage imageSrc="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80" />
+                            <CardImage imageSrc={campaign.imagePath} />
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{campaign.campaignName}</Title>
@@ -156,7 +155,7 @@ const BrowseCampaign = ()=>{
                                         <IconContainer>
                                             <ClockIcon />
                                         </IconContainer>
-                                        <Text>{campaign.daysLeft}</Text>
+                                        <Text>{`${calculateDaysLeft(moment(campaign.campaignLastDate), presentDate)} Days Left`}</Text>
                                     </IconWithText>
                                     <IconWithText>
                                         <HeartIconContainer>
@@ -166,7 +165,7 @@ const BrowseCampaign = ()=>{
                                     </IconWithText>
                                 </SecondaryInfoContainer>
                             </TextInfo>
-                            <PrimaryButton disabled={true} onClick={() => setShowDonateModal(true)}>Donate Now</PrimaryButton>
+                            <PrimaryButton onClick={() => {setShowDonateModal(true);setDonateCampaignId(campaign.campaignId);setCampaign(campaign)}}>Donate Now</PrimaryButton>
                         </Card>
                         :null
                 ))}
@@ -179,10 +178,10 @@ const BrowseCampaign = ()=>{
         <AnimationRevealPage>
             <Header/>
             {showDonateModal ? (
-                <DonateModal campaignId={donateCampaignId} modalIsOpen={showDonateModal} closeModal={closeModal}/>
+                <DonateModal campaignId={donateCampaignId} campaign={campaign} modalIsOpen={showDonateModal} closeModal={closeModal}/>
             ) : null}
             {activeCampaigns}
-            {expiredCampaigns}
+            {inReviewCampaigns}
             <Footer/>
         </AnimationRevealPage>
     )

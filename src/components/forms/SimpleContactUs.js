@@ -55,7 +55,7 @@ const SimpleContactUs = () => {
     createdBy: "",
     donators: [],
     imagePath: "",
-    status: "",
+    status: "inreview",
     updatedBy: "",
     userEmail: "",
   });
