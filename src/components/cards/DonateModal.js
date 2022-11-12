@@ -3,8 +3,9 @@ import Modal from 'react-modal';
 import tw from "twin.macro";
 import axios from "axios";
 import styled from "styled-components";
-import {ReactComponent as SvgDotPatternIcon} from "../../images/dot-pattern.svg";
 import DonateModalInfo from "./DonateModalInfo";
+import swal from 'sweetalert';
+
 
 const customStyles = {
     content:{
@@ -74,7 +75,20 @@ const DonateModal = ({modalIsOpen, closeModal, campaignId, campaign })=>{
         event.preventDefault();
         axios.put(`http://127.0.0.1:5000/${campaignId}`, donations)
             .then(response => {
-                const {name, amount} = response.data;
+                if (response.status === 200){
+                    closeModal();
+                    swal({
+                        title: "Thank You!",
+                        text: "Your contribution was received!",
+                        icon: "success",
+                    });
+                }else{
+                    swal({
+                        title: "Oops!",
+                        text: "There was some problem with payment processing, Please try again!",
+                        icon: "error",
+                    });
+                }
             })
     }
 
