@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { css } from "styled-components/macro"; //eslint-disable-line
 import { ReactComponent as SvgDotPatternIcon } from "../../images/dot-pattern.svg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
+
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
@@ -42,6 +44,7 @@ const SvgDotPattern1 = tw(
 var buttonEnable = false;
 
 const SimpleContactUs = () => {
+  const navigate = useNavigate();
   const [campaign, setCampaign] = useState({
     campaignCollectedAmount: 0,
     campaignInfo: "",
@@ -65,24 +68,22 @@ const SimpleContactUs = () => {
     if (
       campaign.campaignName != "" &&
       campaign.campaignInfo != "" &&
-      campaign.userEmail != ""&&
+      campaign.userEmail != "" &&
       campaign.campaignLastDate != "" &&
       campaign.campaignTotalAmount != 0
     ) {
       buttonEnable = true;
     } else {
       buttonEnable = false;
-      Alert();
     }
   };
-   
-  const Alert=()=>{
-  }
 
   const handleSubmit = (event) => {
     var data;
     event.preventDefault();
     axios.post("http://127.0.0.1:5000", campaign).then((response) => data);
+    swal("Done!", "Campaign Successfully Created!", "success");
+    navigate("/components/innerPages/BrowseCampaignPage");
   };
   const imgFilehandler = (e) => {
     if (e.target.files.length !== 0) {
@@ -194,9 +195,6 @@ const SimpleContactUs = () => {
               </TwoColumn>
               <SubmitButton hidden={!buttonEnable} type="submit" value="Submit">
                 Submit
-              </SubmitButton>
-              <SubmitButton onClick={Alert}>
-                Alert
               </SubmitButton>
               <Paragraph hidden={buttonEnable}>
                 {" "}
