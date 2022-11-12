@@ -33,19 +33,22 @@ const Label = tw.label`absolute top-0 left-0 tracking-wide font-semibold text-sm
 const Input = tw.input``;
 const TextArea = tw.textarea`h-24 sm:h-full resize-none`;
 const SubmitButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-gray-100 text-blue-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-blue-700 hocus:-translate-y-px hocus:shadow-xl`;
+const Paragraph = tw.p`max-w-md my-8 lg:my-5 lg:my-8 text-red-300 sm:text-lg lg:text-base xl:text-lg leading-loose`;
 
 const SvgDotPattern1 = tw(
   SvgDotPatternIcon
 )`absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/2 -z-10 opacity-50 text-blue-500 fill-current w-24`;
 
+var buttonEnable = false;
+
 const SimpleContactUs = () => {
   const [campaign, setCampaign] = useState({
     campaignCollectedAmount: 0,
     campaignInfo: "",
-    campaignLastDate: new Date(),
+    campaignLastDate: "",
     campaignModeratorStage: "",
     campaignName: "",
-    campaignTotalAmount: "0",
+    campaignTotalAmount: 0,
     createdBy: "",
     donators: [],
     imagePath: "",
@@ -59,14 +62,49 @@ const SimpleContactUs = () => {
     setCampaign({
       ...campaign,
     });
+    if (
+      campaign.campaignName != "" &&
+      campaign.campaignInfo != "" &&
+      campaign.userEmail != ""&&
+      campaign.campaignLastDate != "" &&
+      campaign.campaignTotalAmount != 0
+    ) {
+      buttonEnable = true;
+    } else {
+      buttonEnable = false;
+      Alert();
+    }
   };
+   
+  const Alert=()=>{
+  }
 
   const handleSubmit = (event) => {
     var data;
     event.preventDefault();
-    console.log(campaign);
     axios.post("http://127.0.0.1:5000", campaign).then((response) => data);
   };
+  const imgFilehandler = (e) => {
+    if (e.target.files.length !== 0) {
+      const file = e.target.files[0];
+      let fileBase64 = "";
+      getBase64(file, (result) => {
+        fileBase64 = result;
+        campaign.imagePath = fileBase64;
+      });
+    }
+  };
+
+  function getBase64(file, cb) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      cb(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
+  }
 
   return (
     <Container>
@@ -116,8 +154,14 @@ const SimpleContactUs = () => {
                     />
                   </InputContainer>
                   <InputContainer>
-                    <Label htmlFor="email-input">Campaign Image </Label>
-                    <Input id="date-input" type="file" name="file" />
+                    <Label htmlFor="email-input">Campaign Image</Label>
+                    <Input
+                      id="date-input"
+                      onChange={imgFilehandler}
+                      type="file"
+                      name="file"
+                      accept="image/*"
+                    />
                   </InputContainer>
                 </Column>
                 <Column>
@@ -134,12 +178,11 @@ const SimpleContactUs = () => {
                     />
                   </InputContainer>
                   <InputContainer>
-                    <Label htmlFor="email-input">Campaign Fund $ </Label>
+                    <Label htmlFor="email-input">Campaign Fund $ * </Label>
                     <Input
                       id="fund-input"
                       type="number"
                       name="email"
-                      disabled= {true}
                       value={campaign.campaignTotalAmount}
                       onChange={(event) =>
                         handleFormChangeValue(event, "campaignTotalAmount")
@@ -149,9 +192,16 @@ const SimpleContactUs = () => {
                   </InputContainer>
                 </Column>
               </TwoColumn>
-              <SubmitButton type="submit" value="Submit">
+              <SubmitButton hidden={!buttonEnable} type="submit" value="Submit">
                 Submit
               </SubmitButton>
+              <SubmitButton onClick={Alert}>
+                Alert
+              </SubmitButton>
+              <Paragraph hidden={buttonEnable}>
+                {" "}
+                Please fill in all the required information
+              </Paragraph>
             </form>
           </div>
           <SvgDotPattern1 />
