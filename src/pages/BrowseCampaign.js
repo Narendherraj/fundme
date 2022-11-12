@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import AnimationRevealPage from "../helpers/AnimationRevealPage";
 import tw from "twin.macro";
+import moment from "moment";
 import Header from "components/headers/light.js";
 import Footer from "components/footers/MiniCenteredFooter.js";
 import axios from "axios";
@@ -61,18 +62,24 @@ const PrimaryButton = tw(PrimaryButtonBase)`bg-blue-500 text-gray-100 hover:bg-b
 const BrowseCampaign = ()=>{
 
 
+    const presentDate = moment(new Date());
     const [showDonateModal, setShowDonateModal] = useState(false);
+    const [donateCampaignId, setDonateCampaignId] = useState(null);
 
     const [campaigns, setCampaigns] = useState([]);
 
     //used to get the data from api and store in state
     useEffect(()=>{
-        axios.get("http://localhost:1337/api/v1/campaign")
+        axios.get("http://127.0.0.1:5000")
             .then(response => setCampaigns(response.data));
     },[])
 
     const closeModal = ()=>{
         setShowDonateModal(false)
+    }
+
+    const calculateDaysLeft = (presentDate, goalDate) => {
+        return presentDate.diff(goalDate, 'days')
     }
 
     const activeCampaigns = (
@@ -83,36 +90,36 @@ const BrowseCampaign = ()=>{
                 </HeadingWithControl>
                 <FlexCard>
                 {campaigns.map((campaign, index)=>(
-                    !campaign.expired ?
+                    campaign.status ?
 
-                        <Card key={campaign.id}>
+                        <Card key={campaign.campaignId}>
                             <CardImage imageSrc="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80" />
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{campaign.campaignName}</Title>
                                 </TitleReviewContainer>
-                                <Description>{campaign.campaignMessage}</Description>
+                                <Description>{campaign.campaignInfo}</Description>
                                 <ProgressBar
-                                    progressPercentage={(campaign.collectedAmount / campaign.campaignGoalAmount)*100}
-                                    fundsRaised={campaign.collectedAmount}
-                                    fundsNeeded={campaign.campaignGoalAmount}
+                                    progressPercentage={(campaign.campaignCollectedAmount / campaign.campaignTotalAmount)*100}
+                                    fundsRaised={campaign.campaignCollectedAmount}
+                                    fundsNeeded={campaign.campaignTotalAmount}
                                 />
                                 <SecondaryInfoContainer>
                                     <IconWithText>
                                         <IconContainer>
                                             <ClockIcon />
                                         </IconContainer>
-                                        <Text>{campaign.daysLeft}</Text>
+                                        <Text>{`${calculateDaysLeft(presentDate, moment(campaign.campaignLastDate))} Days Left`}</Text>
                                     </IconWithText>
                                     <IconWithText>
                                         <HeartIconContainer>
                                             <HeartIcon />
                                         </HeartIconContainer>
-                                        <Text>{campaign.supporters}</Text>
+                                        <Text>{`${campaign.donators.length} Supporters`}</Text>
                                     </IconWithText>
                                 </SecondaryInfoContainer>
                             </TextInfo>
-                            <PrimaryButton onClick={() => setShowDonateModal(true)}>Donate Now</PrimaryButton>
+                            <PrimaryButton onClick={() => {setShowDonateModal(true);setDonateCampaignId(campaign.campaignId)}}>Donate Now</PrimaryButton>
                         </Card>
                         :null
                 ))}
@@ -130,19 +137,19 @@ const BrowseCampaign = ()=>{
                 </HeadingWithControl>
                 <FlexCard>
                 {campaigns.map((campaign, index)=>(
-                    campaign.expired ?
+                    !campaign.status ?
 
-                        <Card key={campaign.id}>
+                        <Card key={campaign.campaignId}>
                             <CardImage imageSrc="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80" />
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{campaign.campaignName}</Title>
                                 </TitleReviewContainer>
-                                <Description>{campaign.campaignMessage}</Description>
+                                <Description>{campaign.campaignInfo}</Description>
                                 <ProgressBar
-                                    progressPercentage={(campaign.collectedAmount / campaign.campaignGoalAmount)*100}
-                                    fundsRaised={campaign.collectedAmount}
-                                    fundsNeeded={campaign.campaignGoalAmount}
+                                    progressPercentage={(campaign.campaignCollectedAmount / campaign.campaignTotalAmount)*100}
+                                    fundsRaised={campaign.campaignCollectedAmount}
+                                    fundsNeeded={campaign.campaignTotalAmount}
                                 />
                                 <SecondaryInfoContainer>
                                     <IconWithText>
@@ -155,7 +162,7 @@ const BrowseCampaign = ()=>{
                                         <HeartIconContainer>
                                             <HeartIcon />
                                         </HeartIconContainer>
-                                        <Text>{campaign.supporters}</Text>
+                                        <Text>{`${campaign.donators.length} Supporters`}</Text>
                                     </IconWithText>
                                 </SecondaryInfoContainer>
                             </TextInfo>
@@ -172,7 +179,7 @@ const BrowseCampaign = ()=>{
         <AnimationRevealPage>
             <Header/>
             {showDonateModal ? (
-                <DonateModal modalIsOpen={showDonateModal} closeModal={closeModal}/>
+                <DonateModal campaignId={donateCampaignId} modalIsOpen={showDonateModal} closeModal={closeModal}/>
             ) : null}
             {activeCampaigns}
             {expiredCampaigns}
