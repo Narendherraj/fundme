@@ -72,10 +72,10 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">About</NavLink>
-      <NavLink href="/#">Blog</NavLink>
-      <NavLink href="/#">Create Campaign</NavLink>
-      <NavLink href="/#">Browse Campaign</NavLink>
+      <NavLink href="/components/innerPages/AboutUsPage">About</NavLink>
+      <NavLink href="/components/landingPages/EventLandingPage">Blog</NavLink>
+      <NavLink href="/components/innerPages/CampaignPage">Create Campaign</NavLink>
+      <NavLink href="/components/innerPages/BrowseCampaignPage">Browse Campaign</NavLink>
       {/* <NavLink href="/#" tw="lg:ml-12!">
         Login
       </NavLink>
@@ -89,7 +89,7 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   const defaultLogoLink = (
     <LogoLink href="/">
       <img src={logo} alt="logo" />
-      Fund-Me
+      Fund Smiles
     </LogoLink>
   );
 
