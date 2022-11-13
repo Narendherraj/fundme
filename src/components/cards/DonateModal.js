@@ -1,24 +1,23 @@
-import React, {useState} from "react";
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import Modal from "react-modal";
 import tw from "twin.macro";
 import axios from "axios";
 import styled from "styled-components";
 import DonateModalInfo from "./DonateModalInfo";
-import swal from 'sweetalert';
-
+import swal from "sweetalert";
 
 const customStyles = {
-    content:{
-        width:"87%",
-        height:"87%",
-        top:'50%',
-        left:'50%',
-        right:'auto',
-        bottom:'auto',
-        marginRight:'-50%',
-        transform:'translate(-50%,-50%)',
-    },
-}
+  content: {
+    width: "87%",
+    height: "87%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%,-50%)",
+  },
+};
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto p-2 lg:p-2`;
@@ -49,122 +48,144 @@ const Input = tw.input``;
 const SubmitButton = tw.button`w-full sm:w-32 mt-6 ml-10 py-3 bg-gray-100 text-blue-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-blue-700 hocus:-translate-y-px hocus:shadow-xl`;
 const CloseButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-red-100 text-red-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-red-300 hover:text-red-700 hocus:-translate-y-px hocus:shadow-xl`;
 
+const DonateModal = ({
+  modalIsOpen,
+  closeModal,
+  campaignId,
+  campaign,
+  showPaymentCard,
+}) => {
+  console.log(campaignId);
 
-const DonateModal = ({modalIsOpen, closeModal, campaignId, campaign })=>{
+  const [donations, setDonations] = useState({
+    name: "",
+    email: "",
+    remarks: "",
+    amount: 0,
+  });
 
-    console.log(campaignId)
-
-    const [donations, setDonations] = useState({
-        name:"",
-        email:"",
-        remarks:"",
-        amount:0
-    })
-
-    const handleFormChangeInput = (event, inputField)=>{
-        const tempDonations = donations;
-        let value = event.target.value;
-        if (inputField === 'amount'){ value = parseInt(value) }
-        tempDonations[inputField] = value;
-        setDonations({
-            ...tempDonations
-        })
+  const handleFormChangeInput = (event, inputField) => {
+    const tempDonations = donations;
+    let value = event.target.value;
+    if (inputField === "amount") {
+      value = parseInt(value);
     }
+    tempDonations[inputField] = value;
+    setDonations({
+      ...tempDonations,
+    });
+  };
 
-    const submitDonationFormHandler = (event)=>{
-        event.preventDefault();
-        axios.put(`http://127.0.0.1:5000/${campaignId}`, donations)
-            .then(response => {
-                if (response.status === 200){
-                    closeModal();
-                    swal({
-                        title: "Thank You!",
-                        text: "Your contribution was received!",
-                        icon: "success",
-                    });
-                }else{
-                    swal({
-                        title: "Oops!",
-                        text: "There was some problem with payment processing, Please try again!",
-                        icon: "error",
-                    });
-                }
-            })
-    }
+  const submitDonationFormHandler = (event) => {
+    event.preventDefault();
+    axios
+      .put(`http://127.0.0.1:5000/${campaignId}`, donations)
+      .then((response) => {
+        if (response.status === 200) {
+          closeModal();
+          swal({
+            title: "Thank You!",
+            text: "Your contribution was received!",
+            icon: "success",
+          });
+        } else {
+          swal({
+            title: "Oops!",
+            text: "There was some problem with payment processing, Please try again!",
+            icon: "error",
+          });
+        }
+      });
+  };
 
-    return(
-        <Modal
-            isOpen={modalIsOpen}
-            style={customStyles}
-            contentLabel="Donate Modal"
-        >
-            <Container>
-                <Content>
-                    <TwoRow>
-                        <DonateModalInfo campaign={campaign}/>
-                        <FormContainer>
-                            <div className="max-w-4xl">
-                                <h2>Send Your Contribution</h2>
-                                <form>
-                                    <Column>
-                                        <InputContainer>
-                                            <Label htmlFor='name-input'>Name *</Label>
-                                            <Input
-                                                id='name-input'
-                                                type='text'
-                                                name='name'
-                                                value={donations.name}
-                                                onChange={event=>handleFormChangeInput(event, 'name')}
-                                                placeholder='Donator Name'
-                                            />
-                                        </InputContainer>
-                                        <InputContainer>
-                                            <Label htmlFor="email-input">Email *</Label>
-                                            <Input
-                                                id="email-input"
-                                                type="email"
-                                                name="email"
-                                                value={donations.email}
-                                                onChange={event=>handleFormChangeInput(event, 'email')}
-                                                placeholder="E.g. eren@uplandsoftware.com"
-                                            />
-                                        </InputContainer>
-                                        <InputContainer>
-                                            <Label htmlFor="amount-input">Amount *</Label>
-                                            <Input
-                                                id="amount-input"
-                                                type="number"
-                                                name="amount"
-                                                value={donations.amount}
-                                                onChange={event=>handleFormChangeInput(event, 'amount')}
-                                                placeholder="100"
-                                            />
-                                        </InputContainer>
-                                        <InputContainer>
-                                            <Label htmlFor="remarks-input">Remarks</Label>
-                                            <Input
-                                                id="remarks-input"
-                                                type="text"
-                                                name="remarks"
-                                                value={donations.remarks}
-                                                onChange={event=>handleFormChangeInput(event, 'remarks')}
-                                                placeholder="Any Remarks you have ?"
-                                            />
-                                        </InputContainer>
-
-                                    </Column>
-                                    <CloseButton onClick={closeModal}>Close</CloseButton>
-                                    <SubmitButton onClick={event =>submitDonationFormHandler(event)}>Pay Now</SubmitButton>
-                                </form>
-                            </div>
-                        </FormContainer>
-                    </TwoRow>
-
-                </Content>
-            </Container>
-        </Modal>
-    )
-
-}
+  return (
+    <Modal
+      isOpen={modalIsOpen}
+      style={customStyles}
+      contentLabel="Donate Modal"
+    >
+      <Container>
+        <Content>
+          <TwoRow>
+            <DonateModalInfo
+              campaign={campaign}
+              showPaymentCard={showPaymentCard}
+              closeModal={closeModal}
+            />
+            {showPaymentCard ? (
+              <FormContainer>
+                <div className="max-w-4xl">
+                  <h2>Send Your Contribution</h2>
+                  <form>
+                    <Column>
+                      <InputContainer>
+                        <Label htmlFor="name-input">Name *</Label>
+                        <Input
+                          id="name-input"
+                          type="text"
+                          name="name"
+                          value={donations.name}
+                          onChange={(event) =>
+                            handleFormChangeInput(event, "name")
+                          }
+                          placeholder="Donator Name"
+                        />
+                      </InputContainer>
+                      <InputContainer>
+                        <Label htmlFor="email-input">Email *</Label>
+                        <Input
+                          id="email-input"
+                          type="email"
+                          name="email"
+                          value={donations.email}
+                          onChange={(event) =>
+                            handleFormChangeInput(event, "email")
+                          }
+                          placeholder="E.g. eren@uplandsoftware.com"
+                        />
+                      </InputContainer>
+                      <InputContainer>
+                        <Label htmlFor="amount-input">Amount *</Label>
+                        <Input
+                          id="amount-input"
+                          type="number"
+                          name="amount"
+                          value={donations.amount}
+                          onChange={(event) =>
+                            handleFormChangeInput(event, "amount")
+                          }
+                          placeholder="100"
+                        />
+                      </InputContainer>
+                      <InputContainer>
+                        <Label htmlFor="remarks-input">Remarks</Label>
+                        <Input
+                          id="remarks-input"
+                          type="text"
+                          name="remarks"
+                          value={donations.remarks}
+                          onChange={(event) =>
+                            handleFormChangeInput(event, "remarks")
+                          }
+                          placeholder="Any Remarks you have ?"
+                        />
+                      </InputContainer>
+                    </Column>
+                    <CloseButton onClick={closeModal}>Close</CloseButton>
+                    <SubmitButton
+                      onClick={(event) => submitDonationFormHandler(event)}
+                    >
+                      Pay Now
+                    </SubmitButton>
+                  </form>
+                </div>
+              </FormContainer>
+            ) : null}
+          </TwoRow>
+        </Content>
+      </Container>
+    </Modal>
+  );
+};
 
 export default DonateModal;
