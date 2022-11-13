@@ -154,7 +154,7 @@ export default () => {
         </HeadingWithControl>
         <CardSlider ref={setSliderRef} {...sliderSettings}>
           {campaigns.map((campaign, index) =>
-            campaign.status ? (
+            campaign.status && campaign.status !== "goalReached" ? (
               <Card key={campaign.campaignId}>
                 <CardImage imageSrc={campaign.imagePath} />
                 <TextInfo>

@@ -117,16 +117,6 @@ const BrowseCampaign = () => {
       .then((response) => setCampaigns(response.data));
   }, []);
 
-  // useEffect(() => {
-  //   let tempCampaigns = campaigns;
-  //   tempCampaigns.map((campaign) => {
-  //     if (campaign.campaignCollectedAmount > campaign.campaignTotalAmount) {
-  //       campaign.status = "goalReached";
-  //     }
-  //   });
-  //
-  //   setCampaigns(tempCampaigns);
-  // }, [campaigns]);
   const closeModal = () => {
     setShowDonateModal(false);
   };
@@ -142,11 +132,12 @@ const BrowseCampaign = () => {
           <Heading>Active Campaigns</Heading>
         </HeadingWithControl>
         {campaigns.map((campaign) =>
-          campaign.status ? (
+          campaign.status && campaign.status !== "goalReached" ? (
             <CampaignsCard
               key={campaign.campaignId}
               campaign={campaign}
               inReview={false}
+              goalReached={false}
             />
           ) : null
         )}
@@ -166,6 +157,7 @@ const BrowseCampaign = () => {
               key={campaign.campaignId}
               campaign={campaign}
               inReview={true}
+              goalReached={false}
             />
           ) : null
         )}
@@ -185,6 +177,7 @@ const BrowseCampaign = () => {
               key={campaign.campaignId}
               campaign={campaign}
               inReview={true}
+              goalReached={true}
             />
           ) : null
         )}

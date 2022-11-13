@@ -14,6 +14,8 @@ const DonateModalInfo = ({
   showPaymentCard,
   showPaymentCardHandler,
   closeModal,
+  inReview,
+  goalReached,
 }) => {
   const calculateDaysLeft = (presentDate, goalDate) => {
     return presentDate.diff(goalDate, "days");
@@ -110,15 +112,23 @@ const DonateModalInfo = ({
                 </span>
                 <div className="flex flex-col w-full ml-2 items-start justify-evenly">
                   <p className="text-white text-lg">
-                    <ProgressBar
-                      progressPercentage={
-                        (campaign.campaignCollectedAmount /
-                          campaign.campaignTotalAmount) *
-                        100
-                      }
-                      fundsRaised={campaign.campaignCollectedAmount}
-                      fundsNeeded={campaign.campaignTotalAmount}
-                    />
+                    {goalReached ? (
+                      <ProgressBar
+                        progressPercentage={100}
+                        fundsRaised={campaign.campaignCollectedAmount}
+                        fundsNeeded={campaign.campaignTotalAmount}
+                      />
+                    ) : (
+                      <ProgressBar
+                        progressPercentage={
+                          (campaign.campaignCollectedAmount /
+                            campaign.campaignTotalAmount) *
+                          100
+                        }
+                        fundsRaised={campaign.campaignCollectedAmount}
+                        fundsNeeded={campaign.campaignTotalAmount}
+                      />
+                    )}
                   </p>
                 </div>
               </div>
@@ -160,9 +170,11 @@ const DonateModalInfo = ({
                     <p className="text-red-500 text-sm">
                       <CloseButton onClick={closeModal}>Close</CloseButton>
                     </p>
-                    <p className="text-blue-200 text-sm">
-                      <SubmitButton>Donate Now</SubmitButton>
-                    </p>
+                    {inReview || goalReached ? null : (
+                      <p className="text-blue-200 text-sm">
+                        <SubmitButton>Donate Now</SubmitButton>
+                      </p>
+                    )}
                   </div>
                 </div>
               )}

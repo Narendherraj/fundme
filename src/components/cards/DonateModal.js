@@ -53,6 +53,8 @@ const DonateModal = ({
   closeModal,
   campaignId,
   campaign,
+  inReview,
+  goalReached,
   showPaymentCard,
 }) => {
   console.log(campaignId);
@@ -111,6 +113,8 @@ const DonateModal = ({
               campaign={campaign}
               showPaymentCard={showPaymentCard}
               closeModal={closeModal}
+              inReview={inReview}
+              goalReached={goalReached}
             />
             {showPaymentCard ? (
               <FormContainer>

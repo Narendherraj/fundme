@@ -4,8 +4,7 @@ import tw from "twin.macro";
 import { ReactComponent as SvgDotPatternIcon } from "../../images/dot-pattern.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert';
-
+import swal from "sweetalert";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
@@ -61,9 +60,14 @@ const SimpleContactUs = () => {
   });
 
   const handleFormChangeValue = (event, inputField) => {
-    campaign[inputField] = event.target.value;
+    const tempCampaign = campaign;
+    let value = event.target.value;
+    if (inputField === "campaignTotalAmount") {
+      value = parseInt(value);
+    }
+    tempCampaign[inputField] = value;
     setCampaign({
-      ...campaign,
+      ...tempCampaign,
     });
     if (
       campaign.campaignName != "" &&

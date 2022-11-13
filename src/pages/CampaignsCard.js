@@ -13,7 +13,7 @@ const CardImageNew = styled.div((props) => [
 
 const SubmitButton = tw.button`sm:w-32 py-3 bg-gray-100 text-blue-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-blue-700 hocus:-translate-y-px hocus:shadow-xl`;
 
-const CampaignsCard = ({ campaign, inReview }) => {
+const CampaignsCard = ({ campaign, inReview, goalReached }) => {
   const calculateDaysLeft = (presentDate, goalDate) => {
     return presentDate.diff(goalDate, "days");
   };
@@ -56,6 +56,8 @@ const CampaignsCard = ({ campaign, inReview }) => {
           closeModal={closeInfoModal}
           campaignId={campaignId}
           campaign={campaignN}
+          inReview={inReview}
+          goalReached={goalReached}
           showPaymentCard={showPaymentCard}
           showPaymentCardHandler={showPaymentCardHandler}
         />
@@ -124,15 +126,23 @@ const CampaignsCard = ({ campaign, inReview }) => {
                     </span>
                     <div className="flex flex-col w-full ml-2 items-start justify-evenly">
                       <p className="text-white text-lg">
-                        <ProgressBar
-                          progressPercentage={
-                            (campaign.campaignCollectedAmount /
-                              campaign.campaignTotalAmount) *
-                            100
-                          }
-                          fundsRaised={campaign.campaignCollectedAmount}
-                          fundsNeeded={campaign.campaignTotalAmount}
-                        />
+                        {goalReached ? (
+                          <ProgressBar
+                            progressPercentage={100}
+                            fundsRaised={campaign.campaignCollectedAmount}
+                            fundsNeeded={campaign.campaignTotalAmount}
+                          />
+                        ) : (
+                          <ProgressBar
+                            progressPercentage={
+                              (campaign.campaignCollectedAmount /
+                                campaign.campaignTotalAmount) *
+                              100
+                            }
+                            fundsRaised={campaign.campaignCollectedAmount}
+                            fundsNeeded={campaign.campaignTotalAmount}
+                          />
+                        )}
                       </p>
                     </div>
                   </div>
@@ -190,7 +200,13 @@ const CampaignsCard = ({ campaign, inReview }) => {
             )}
             {inReview ? (
               <div className="w-fit h-8 ml-4 mr-10 rounded-full right-0">
-                <SubmitButton>Read More</SubmitButton>
+                <SubmitButton
+                  onClick={() => {
+                    readMoreHandler(campaign.campaignId, campaign);
+                  }}
+                >
+                  Read More
+                </SubmitButton>
               </div>
             ) : (
               <div className="w-fit h-8 ml-4 rounded-full right-0">
