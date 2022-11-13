@@ -5,11 +5,6 @@ import axios from "axios";
 import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
-import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/dollar-sign.svg";
-import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
-import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
-import { ReactComponent as ClockIcon } from "feather-icons/dist/icons/clock.svg";
-import { ReactComponent as HeartIcon } from "feather-icons/dist/icons/heart.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
 import ProgressBar from "./ProgressBar";
@@ -42,39 +37,6 @@ const CardImage = styled.div((props) => [
 
 const TextInfo = tw.div`py-6 sm:px-10 sm:py-6`;
 const TitleReviewContainer = tw.div`flex flex-col sm:flex-row sm:justify-between sm:items-center`;
-const Title = tw.h5`text-lg font-bold h-24`;
-
-const RatingsInfo = styled.div`
-  ${tw`flex items-center sm:ml-4 mt-2 sm:mt-0`}
-  svg {
-    ${tw`w-6 h-6 text-yellow-500 fill-current`}
-  }
-`;
-const Rating = tw.span`ml-2 font-bold`;
-
-const Description = tw.p`text-sm leading-loose mt-2 sm:mt-4`;
-
-const SecondaryInfoContainer = tw.div`flex flex-col sm:flex-row mt-2 sm:mt-4`;
-const IconWithText = tw.div`flex items-center mr-6 my-2 sm:my-0`;
-const IconContainer = styled.div`
-  svg {
-    ${tw`w-6 h-6`}
-  }
-`;
-const HeartIconContainer = styled.div`
-  ${tw`text-red-600`}
-  svg {
-    ${tw`w-6 h-6`}
-  }
-`;
-
-const SubmitButton = tw.button`sm:w-32 py-3 bg-gray-100 text-blue-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-blue-700 hocus:-translate-y-px hocus:shadow-xl`;
-
-const CardImageNew = styled.div((props) => [
-  `background-image: url("${props.imageSrc}");`,
-  tw`bg-gray-200 h-80 bg-cover bg-center rounded-l-2xl`,
-]);
-const Text = tw.div`ml-2 text-xs font-semibold text-gray-800`;
 
 const PrimaryButton = tw(
   PrimaryButtonBase

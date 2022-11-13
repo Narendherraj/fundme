@@ -3,7 +3,6 @@ import ProgressBar from "../components/cards/ProgressBar";
 import moment from "moment/moment";
 import tw from "twin.macro";
 import styled from "styled-components";
-import DonateModalInfo from "../components/cards/DonateModalInfo";
 import DonateModal from "../components/cards/DonateModal";
 
 const CardImageNew = styled.div((props) => [
@@ -35,10 +34,6 @@ const CampaignsCard = ({ campaign, inReview, goalReached }) => {
     setShowPaymentCard(false);
     setCampaignId(campaignId);
     setCampaignN(campaign);
-  };
-
-  const donateNowHandler = (campaignId, campaign) => {
-    setShowPaymentCard(true);
   };
 
   const showPaymentCardHandler = (campaignId, campaign) => {
