@@ -40,7 +40,7 @@ const BrowseCampaign = () => {
           <Heading>Active Campaigns</Heading>
         </HeadingWithControl>
         {campaigns.map((campaign) =>
-          campaign.status && campaign.status !== "goalReached" ? (
+          campaign.status === "active" && campaign.status !== "goalReached" ? (
             <CampaignsCard
               key={campaign.campaignId}
               campaign={campaign}

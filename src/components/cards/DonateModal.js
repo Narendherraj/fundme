@@ -5,6 +5,7 @@ import axios from "axios";
 import styled from "styled-components";
 import DonateModalInfo from "./DonateModalInfo";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -77,6 +78,7 @@ const DonateModal = ({
       ...tempDonations,
     });
   };
+  let navigate = useNavigate();
 
   const submitDonationFormHandler = (event) => {
     event.preventDefault();
@@ -90,6 +92,7 @@ const DonateModal = ({
             text: "Your contribution was received!",
             icon: "success",
           });
+          navigate("/components/innerPages/BrowseCampaignPage");
         } else {
           swal({
             title: "Oops!",

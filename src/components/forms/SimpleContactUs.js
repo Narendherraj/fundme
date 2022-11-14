@@ -126,11 +126,24 @@ const SimpleContactUs = () => {
                       id="name-input"
                       type="text"
                       name="name"
+                      value={campaign.createdBy}
+                      onChange={(event) =>
+                        handleFormChangeValue(event, "createdBy")
+                      }
+                      placeholder="E.g. Eren Yeager"
+                    />
+                  </InputContainer>
+                  <InputContainer>
+                    <Label htmlFor="name-input">Campaign Title *</Label>
+                    <Input
+                      id="name-input"
+                      type="text"
+                      name="name"
                       value={campaign.campaignName}
                       onChange={(event) =>
                         handleFormChangeValue(event, "campaignName")
                       }
-                      placeholder="E.g. Eren Yeager"
+                      placeholder="E.g Fund for Cause"
                     />
                   </InputContainer>
                   <InputContainer>
